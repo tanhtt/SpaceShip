@@ -66,7 +66,7 @@ public abstract class Spawner : SaiMonoBehaviour
         Transform newPrefab = this.GetObjectFromPool(prefab);
         newPrefab.SetPositionAndRotation(spawnPos, rotation);
 
-        newPrefab.parent = this.holder;
+        newPrefab.SetParent(this.holder);
         this.spawnedCount++;
 
         return newPrefab;
@@ -91,6 +91,8 @@ public abstract class Spawner : SaiMonoBehaviour
 
     public virtual void Despawn(Transform obj)
     {
+        if (this.poolObjs.Contains(obj)) return;
+
         this.poolObjs.Add(obj);
         obj.gameObject.SetActive(false);
         this.spawnedCount--;

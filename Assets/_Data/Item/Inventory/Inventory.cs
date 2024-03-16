@@ -11,9 +11,9 @@ public class Inventory : SaiMonoBehaviour
     protected override void Start()
     {
         base.Start();
-        //this.AddItem(ItemCode.CopperSword, 1);
-        //this.AddItem(ItemCode.GoldOre, 10);
-        //this.AddItem(ItemCode.IronOre, 10);
+        this.AddItem(ItemCode.CopperSword, 1);
+        this.AddItem(ItemCode.GoldOre, 10);
+        this.AddItem(ItemCode.IronOre, 10);
     }
 
     public virtual bool AddItem(ItemInventory itemInventory)
@@ -39,7 +39,6 @@ public class Inventory : SaiMonoBehaviour
 
     public virtual bool AddItem(ItemCode itemCode, int addCount)
     {
-
         ItemProfileSO itemProfile = this.GetItemProfile(itemCode);
 
         int addRemain = addCount;
@@ -75,7 +74,6 @@ public class Inventory : SaiMonoBehaviour
             itemExist.itemCount = newCount;
             if (addRemain < 1) break;
         }
-
         return true;
     }
 
@@ -127,6 +125,7 @@ public class Inventory : SaiMonoBehaviour
     {
         ItemInventory itemInventory = new ItemInventory
         {
+            itemId = ItemInventory.RandomID(),
             itemProfile = itemProfile,
             maxStack = itemProfile.defaultMaxStack
         };

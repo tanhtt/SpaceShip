@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : SaiMonoBehaviour
+public class InputManager : Singleton<InputManager>
 {
-    private static InputManager instance;
-    public static InputManager Instance { get => instance; }
-
     [SerializeField] protected Vector3 mouseWorldPos;
     public Vector3 MouseWorldPos { get => mouseWorldPos; }
 
@@ -16,16 +13,11 @@ public class InputManager : SaiMonoBehaviour
     protected Vector4 direction;
     public Vector4 Direction => direction;
 
-    protected override void Awake()
-    {
-        if (InputManager.instance != null) Debug.LogError("Only 1 InputManager allow to exist");
-        InputManager.instance = this;
-    }
-
     void Update()
     {
         this.GetMouseDown();
         this.GetDirectionByKeyDown();
+        this.GetPauseInput();
     }
 
     void FixedUpdate()
@@ -61,5 +53,23 @@ public class InputManager : SaiMonoBehaviour
         //if (this.direction.y == 1) Debug.Log("Right");
         //if (this.direction.z == 1) Debug.Log("Up");
         //if (this.direction.w == 1) Debug.Log("Down");
+    }
+
+    [Header("Pause Input")]
+    [Tooltip("The state of the pause button")]
+    public float pauseButton = 0;
+
+    /// <summary>
+    /// Description:
+    /// Collects pause button input
+    /// Input: 
+    /// CallbackContext callbackContext
+    /// Returns:
+    /// void (no return)
+    /// </summary>
+    /// <param name="callbackContext">The context of the pause input</param>
+    public void GetPauseInput()
+    {
+        pauseButton = Input.GetKeyDown(KeyCode.Escape) ? 1 : 0;
     }
 }

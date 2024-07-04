@@ -6,6 +6,10 @@ public class BtnExitGame : BaseButton
 {
     protected override void OnClick()
     {
-        Debug.Log("On Click");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

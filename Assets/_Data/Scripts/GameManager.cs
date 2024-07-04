@@ -2,20 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameCtrl : SaiMonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    private static GameCtrl instance;
-    public static GameCtrl Instance => instance;
-
+    [Header("References:")]
+    [Tooltip("The main camera object")]
     [SerializeField] protected Camera mainCamera;
     public Camera MainCamera => mainCamera;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        if (GameCtrl.instance != null) Debug.LogError("Only 1 GameManager allow to exist");
-        GameCtrl.instance = this;
-    }
+    [Tooltip("The UIManager component which manages the current scene's UI")]
+    public UIManager uiManager = null;
+    [Tooltip("The player gameobject")]
+    public GameObject player = null;
 
     protected override void LoadComponents()
     {
@@ -26,7 +23,7 @@ public class GameCtrl : SaiMonoBehaviour
     protected virtual void LoadCamera()
     {
         if (this.mainCamera != null) return;
-        this.mainCamera = GameCtrl.FindObjectOfType<Camera>();
+        this.mainCamera = GameManager.FindObjectOfType<Camera>();
         Debug.Log(transform.name + ": LoadCamera", gameObject);
     }
 }
